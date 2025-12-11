@@ -9,16 +9,12 @@ const Navbar = () => {
     <nav className="bg-white shadow-md sticky top-0 z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center">
             <img 
               src={logo} 
               alt="Lahsa Tours Logo" 
-              className="h-12 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
-            <div>
-              <span className="text-2xl font-bold text-gray-900 tracking-tight">Lahsa Tours</span>
-              <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Premium Travel</div>
-            </div>
           </div>
           
           <div className="hidden md:flex items-center space-x-10">
