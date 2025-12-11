@@ -23,7 +23,7 @@ const Banner = () => {
   }
 
   return (
-    <div className="relative h-[650px] bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 overflow-hidden">
+    <div className="relative h-[500px] sm:h-[650px] bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -34,43 +34,43 @@ const Banner = () => {
       {/* Subtle overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 h-full flex items-center">
         <div className="w-full">
-          <div className="text-center mb-12">
-            <div className="inline-block bg-white/20 backdrop-blur-sm text-white px-6 py-2.5 rounded-full text-xs font-semibold mb-8 border border-white/30 tracking-wide uppercase">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs font-semibold mb-6 sm:mb-8 border border-white/30 tracking-wide uppercase">
               Atithi Devo Bhava - Serving Since 2010
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-2xl leading-tight tracking-tight">
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 drop-shadow-2xl leading-tight tracking-tight">
               Discover Incredible
-              <span className="block text-white mt-2">
+              <span className="block text-white mt-1 sm:mt-2">
                 India With Us
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto mb-10 drop-shadow-lg font-light">
+            <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/95 max-w-xs xs:max-w-md sm:max-w-3xl mx-auto mb-6 sm:mb-10 drop-shadow-lg font-light">
               Explore the rich heritage, diverse culture, and breathtaking landscapes of India with our curated tour packages and premium car rentals
             </p>
-            <div className="flex items-center justify-center space-x-12 text-white/95">
+            <div className="flex flex-col xs:flex-row items-center justify-center gap-4 xs:gap-8 sm:space-x-12 text-white/95">
               <div className="text-center">
-                <div className="text-4xl font-bold mb-1">50K+</div>
-                <div className="text-sm font-medium uppercase tracking-wide">Happy Yatris</div>
+                <div className="text-3xl sm:text-4xl font-bold mb-1">50K+</div>
+                <div className="text-xs sm:text-sm font-medium uppercase tracking-wide">Happy Yatris</div>
               </div>
-              <div className="w-px h-16 bg-white/30"></div>
+              <div className="hidden xs:block w-px h-10 sm:h-16 bg-white/30"></div>
               <div className="text-center">
-                <div className="text-4xl font-bold mb-1">28+</div>
-                <div className="text-sm font-medium uppercase tracking-wide">Indian States</div>
+                <div className="text-3xl sm:text-4xl font-bold mb-1">28+</div>
+                <div className="text-xs sm:text-sm font-medium uppercase tracking-wide">Indian States</div>
               </div>
-              <div className="w-px h-16 bg-white/30"></div>
+              <div className="hidden xs:block w-px h-10 sm:h-16 bg-white/30"></div>
               <div className="text-center">
-                <div className="text-4xl font-bold mb-1">4.8</div>
-                <div className="text-sm font-medium uppercase tracking-wide">Average Rating</div>
+                <div className="text-3xl sm:text-4xl font-bold mb-1">4.8</div>
+                <div className="text-xs sm:text-sm font-medium uppercase tracking-wide">Average Rating</div>
               </div>
             </div>
           </div>
 
           {/* Search Form */}
-          <div className="max-w-5xl mx-auto">
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-2xl p-8 md:p-10 border border-gray-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="max-w-md sm:max-w-2xl md:max-w-5xl mx-auto">
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-2xl p-4 xs:p-6 md:p-10 border border-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                 {/* From */}
                 <div className="relative">
                   <label className="block text-xs font-bold text-gray-700 mb-2.5 uppercase tracking-wide">
@@ -141,7 +141,7 @@ const Banner = () => {
 
               <button
                 type="submit"
-                className="w-full mt-7 bg-gradient-to-r from-primary-600 to-primary-700 text-white py-4 rounded-lg font-bold text-base hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-xl uppercase tracking-wide"
+                className="w-full mt-5 sm:mt-7 bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 sm:py-4 rounded-lg font-bold text-base hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-xl uppercase tracking-wide"
               >
                 <Search className="h-5 w-5" />
                 <span>Search Tours</span>
