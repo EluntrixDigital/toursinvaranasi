@@ -55,7 +55,12 @@ const AdminTestimonials = () => {
       setTestimonials(testimonialsData)
     } catch (error) {
       console.error('Error fetching testimonials:', error)
-      message.error('Failed to load testimonials')
+      const errorMessage = error.message || 'Failed to load testimonials'
+      message.error(`Failed to load testimonials: ${errorMessage}`)
+      
+      if (error.code === 'permission-denied') {
+        message.error('Permission denied. Please check Firestore security rules for the testimonials collection.')
+      }
     } finally {
       setLoading(false)
     }
@@ -83,7 +88,15 @@ const AdminTestimonials = () => {
       fetchTestimonials()
     } catch (error) {
       console.error('Error saving testimonial:', error)
-      message.error('Failed to save testimonial')
+      const errorMessage = error.message || 'Failed to save testimonial'
+      message.error(`Failed to save testimonial: ${errorMessage}`)
+      
+      // Show more specific error messages
+      if (error.code === 'permission-denied') {
+        message.error('Permission denied. Please check Firestore security rules for the testimonials collection.')
+      } else if (error.code === 'unavailable') {
+        message.error('Firestore is unavailable. Please check your internet connection.')
+      }
     }
   }
 

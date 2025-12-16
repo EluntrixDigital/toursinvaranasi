@@ -56,6 +56,11 @@ service cloud.firestore {
       allow read, write: if request.auth != null;
     }
     
+    // Testimonials - authenticated admins only
+    match /testimonials/{testimonialId} {
+      allow read, write: if request.auth != null;
+    }
+    
     // Settings - authenticated admins only
     match /settings/{settingId} {
       allow read, write: if request.auth != null;
@@ -94,6 +99,19 @@ service cloud.firestore {
     match /carRentals/{carId} {
       allow read: if true;  // Anyone can read
       allow write: if request.auth != null;  // Only authenticated users can write
+    }
+    
+    // Testimonials - public read, authenticated write
+    match /testimonials/{testimonialId} {
+      allow read: if true;  // Anyone can read
+      allow write: if request.auth != null;  // Only authenticated users can write
+    }
+    
+    // Inquiries/Contact Form - public write, authenticated read/write
+    match /inquiries/{inquiryId} {
+      allow read: if request.auth != null;  // Only authenticated admins can read
+      allow create: if true;  // Anyone can submit contact form
+      allow update, delete: if request.auth != null;  // Only authenticated admins can update/delete
     }
     
     // Settings - authenticated only
@@ -180,3 +198,103 @@ service cloud.firestore {
 ```
 
 Click **Publish** and refresh your app! ✅
+
+---
+
+## Testimonials Collection Fix
+
+**If you can't save testimonials**, you need to add the `testimonials` collection to your Firestore rules.
+
+### Complete Rules (Including Testimonials)
+
+**For Production (Recommended):**
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - users can only read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Holiday packages - authenticated admins only
+    match /holidayPackages/{packageId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Car rentals - authenticated admins only
+    match /carRentals/{carId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Testimonials - authenticated admins only
+    match /testimonials/{testimonialId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Inquiries/Contact Form - public write, authenticated read/write
+    match /inquiries/{inquiryId} {
+      allow read: if request.auth != null;  // Only authenticated admins can read
+      allow create: if true;  // Anyone can submit contact form
+      allow update, delete: if request.auth != null;  // Only authenticated admins can update/delete
+    }
+    
+    // Settings - authenticated admins only
+    match /settings/{settingId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+```
+
+**For Public Read (Frontend can display, Admin can manage):**
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - users can only read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Holiday packages - public read, authenticated write
+    match /holidayPackages/{packageId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Car rentals - public read, authenticated write
+    match /carRentals/{carId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Testimonials - public read, authenticated write
+    match /testimonials/{testimonialId} {
+      allow read: if true;  // Anyone can read testimonials on the frontend
+      allow write: if request.auth != null;  // Only authenticated admins can write
+    }
+    
+    // Inquiries/Contact Form - public write, authenticated read/write
+    match /inquiries/{inquiryId} {
+      allow read: if request.auth != null;  // Only authenticated admins can read
+      allow create: if true;  // Anyone can submit contact form
+      allow update, delete: if request.auth != null;  // Only authenticated admins can update/delete
+    }
+    
+    // Settings - authenticated only
+    match /settings/{settingId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+**⚠️ IMPORTANT:** Make sure the `testimonials` collection rule is included before the catch-all deny rule!

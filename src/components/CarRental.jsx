@@ -120,7 +120,7 @@ const CarRental = ({ searchFilters, onClearSearch }) => {
             ) : (
               <>
                 <p className="text-gray-600">No cars available at the moment.</p>
-                <p className="text-sm text-gray-500 mt-2">Add cars from the admin portal to see them here.</p>
+        
               </>
             )}
           </div>

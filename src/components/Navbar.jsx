@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import logo from '../varanasilogo.png'
+import logo from '../lhasalogo.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,11 +18,11 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-10">
-            <a href="#home" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Home</a>
-            <a href="#packages" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Packages</a>
-            <a href="#car-rental" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Car Rental</a>
-            <a href="#about" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">About</a>
-            <a href="#contact" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Contact</a>
+            <a href="/#home" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Home</a>
+            <a href="/#packages" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Packages</a>
+            <a href="/#car-rental" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Car Rental</a>
+            <a href="/#about" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">About</a>
+            <a href="/contact" className="text-gray-700 hover:text-primary-600 font-semibold text-sm transition-colors uppercase tracking-wide">Contact</a>
             <button className="bg-primary-600 text-white px-6 py-2.5 rounded-lg hover:bg-primary-700 transition-all font-semibold text-sm uppercase tracking-wide shadow-md hover:shadow-lg">
               Book Now
             </button>
@@ -40,11 +40,11 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white border-t">
           <div className="px-4 pt-2 pb-4 space-y-2">
-            <a href="#home" className="block py-2 text-gray-700 hover:text-primary-600">Home</a>
-            <a href="#packages" className="block py-2 text-gray-700 hover:text-primary-600">Packages</a>
-            <a href="#car-rental" className="block py-2 text-gray-700 hover:text-primary-600">Car Rental</a>
-            <a href="#about" className="block py-2 text-gray-700 hover:text-primary-600">About</a>
-            <a href="#contact" className="block py-2 text-gray-700 hover:text-primary-600">Contact</a>
+            <a href="/#home" className="block py-2 text-gray-700 hover:text-primary-600">Home</a>
+            <a href="/#packages" className="block py-2 text-gray-700 hover:text-primary-600">Packages</a>
+            <a href="/#car-rental" className="block py-2 text-gray-700 hover:text-primary-600">Car Rental</a>
+            <a href="/#about" className="block py-2 text-gray-700 hover:text-primary-600">About</a>
+            <a href="/contact" className="block py-2 text-gray-700 hover:text-primary-600">Contact</a>
             <button className="w-full bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition font-medium mt-2">
               Book Now
             </button>

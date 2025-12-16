@@ -118,7 +118,7 @@ const HolidayPackages = ({ searchFilters, onClearSearch }) => {
             ) : (
               <>
                 <p className="text-gray-600">No packages available at the moment.</p>
-                <p className="text-sm text-gray-500 mt-2">Add packages from the admin portal to see them here.</p>
+             
               </>
             )}
           </div>

@@ -15,6 +15,8 @@ import TermsConditions from './pages/TermsConditions'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import RefundPolicy from './pages/RefundPolicy'
 import CancellationPolicy from './pages/CancellationPolicy'
+import Contact from './pages/Contact'
+import AdminInquiries from './pages/AdminInquiries'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -37,10 +39,51 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Policy Pages */}
-          <Route path="/terms-conditions" element={<TermsConditions />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/refund-policy" element={<RefundPolicy />} />
-          <Route path="/cancellation-policy" element={<CancellationPolicy />} />
+          <Route path="/terms-conditions" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <TermsConditions />
+              </main>
+              <Footer />
+            </div>
+          } />
+          <Route path="/privacy-policy" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <PrivacyPolicy />
+              </main>
+              <Footer />
+            </div>
+          } />
+          <Route path="/refund-policy" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <RefundPolicy />
+              </main>
+              <Footer />
+            </div>
+          } />
+          <Route path="/cancellation-policy" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <CancellationPolicy />
+              </main>
+              <Footer />
+            </div>
+          } />
+          <Route path="/contact" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <Contact />
+              </main>
+              <Footer />
+            </div>
+          } />
 
           {/* Protected Admin Routes */}
           <Route path="/admin" element={
@@ -52,6 +95,7 @@ function App() {
             <Route path="packages" element={<AdminPackages />} />
             <Route path="cars" element={<AdminCars />} />
             <Route path="testimonials" element={<AdminTestimonials />} />
+            <Route path="inquiries" element={<AdminInquiries />} />
             <Route path="payment" element={<AdminPayment />} />
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
           </Route>

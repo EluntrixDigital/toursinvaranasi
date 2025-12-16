@@ -50,7 +50,7 @@ const Testimonials = () => {
         ) : testimonials.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-600">No testimonials available at the moment.</p>
-            <p className="text-sm text-gray-500 mt-2">Add testimonials from the admin portal to see them here.</p>
+         
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

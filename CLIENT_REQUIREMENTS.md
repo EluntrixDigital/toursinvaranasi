@@ -15,7 +15,7 @@ This document contains questions to gather all necessary information from the cl
 - [ ] **Company Vision Statement**: 
 
 ### Logo & Branding
-- [ ] **Logo File**: (We have `varanasilogo.png` - is this the final version?)
+- [ ] **Logo File**: (We have `lhasalogo.png` - is this the final version?)
 - [ ] **Logo Variations**: Do you have different versions (light/dark, horizontal/vertical)?
 - [ ] **Brand Colors**: (Currently using blue primary color - confirm or provide brand colors)
 - [ ] **Font Preferences**: (Currently using Inter font - any specific font requirements?)

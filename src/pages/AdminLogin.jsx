@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Card, Form, Input, Button, Alert } from 'antd'
 import { MailOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons'
 import { Layout } from 'antd'
-import logo from '../varanasilogo.png'
+import logo from '../lhasalogo.png'
 
 const { Content } = Layout
 

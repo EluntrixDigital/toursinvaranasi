@@ -6,6 +6,7 @@ import {
   AppstoreOutlined, 
   CarOutlined, 
   MessageOutlined,
+  InboxOutlined,
   DollarOutlined, 
   UserOutlined,
   PlusOutlined,
@@ -19,7 +20,9 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({
     packages: 0,
     cars: 0,
-    testimonials: 0
+    testimonials: 0,
+    inquiries: 0,
+    unreadInquiries: 0
   })
   const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
@@ -40,11 +43,17 @@ const AdminDashboard = () => {
         const packagesSnapshot = await getDocs(collection(db, 'holidayPackages'))
         const carsSnapshot = await getDocs(collection(db, 'carRentals'))
         const testimonialsSnapshot = await getDocs(collection(db, 'testimonials'))
+        const inquiriesSnapshot = await getDocs(collection(db, 'inquiries'))
+        
+        const inquiries = inquiriesSnapshot.docs.map(doc => doc.data())
+        const unreadInquiries = inquiries.filter(i => i.status === 'unread').length
         
         setStats({
           packages: packagesSnapshot.size,
           cars: carsSnapshot.size,
-          testimonials: testimonialsSnapshot.size
+          testimonials: testimonialsSnapshot.size,
+          inquiries: inquiriesSnapshot.size,
+          unreadInquiries
         })
       } catch (error) {
         console.error('Error fetching stats:', error)
@@ -82,6 +91,16 @@ const AdminDashboard = () => {
       gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
       iconBg: 'rgba(139, 92, 246, 0.1)',
       iconColor: '#8b5cf6',
+      loading
+    },
+    {
+      title: 'Inquiries',
+      value: stats.inquiries,
+      suffix: stats.unreadInquiries > 0 ? ` (${stats.unreadInquiries} new)` : '',
+      icon: <InboxOutlined />,
+      gradient: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
+      iconBg: 'rgba(236, 72, 153, 0.1)',
+      iconColor: '#ec4899',
       loading
     },
     {
@@ -126,6 +145,13 @@ const AdminDashboard = () => {
       icon: <MessageOutlined />,
       gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
       path: '/admin/testimonials'
+    },
+    {
+      title: 'View Inquiries',
+      description: 'View and manage contact form submissions',
+      icon: <InboxOutlined />,
+      gradient: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
+      path: '/admin/inquiries'
     },
     {
       title: 'Payment Settings',
@@ -214,7 +240,7 @@ const AdminDashboard = () => {
                   <Statistic
                     title={<span style={{ color: '#64748b', fontSize: 14, fontWeight: 500 }}>{stat.title}</span>}
                     value={stat.value}
-                    suffix={stat.suffix}
+                    suffix={stat.suffix ? <span style={{ fontSize: 16, fontWeight: 500, color: '#64748b' }}>{stat.suffix}</span> : undefined}
                     valueStyle={{ 
                       color: '#1e293b',
                       fontSize: 28,

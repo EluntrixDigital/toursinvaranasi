@@ -323,14 +323,6 @@ const AdminCars = () => {
             <Input placeholder="Enter image URL" />
           </Form.Item>
 
-          <Form.Item
-            name="image"
-            label="Image URL"
-            rules={[{ required: true, message: 'Please enter image URL' }]}
-          >
-            <Input placeholder="Enter image URL" />
-          </Form.Item>
-
           <Row gutter={16}>
             <Col span={6}>
               <Form.Item

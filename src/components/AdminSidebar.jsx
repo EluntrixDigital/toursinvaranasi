@@ -6,13 +6,14 @@ import {
   AppstoreOutlined,
   CarOutlined,
   MessageOutlined,
+  InboxOutlined,
   CreditCardOutlined,
   LogoutOutlined,
   UserOutlined
 } from '@ant-design/icons'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
-import logo from '../varanasilogo.png'
+import logo from '../lhasalogo.png'
 
 const { Sider } = Layout
 const { Text } = Typography
@@ -45,6 +46,11 @@ const AdminSidebar = ({ collapsed, setCollapsed, isMobile = false }) => {
       key: '/admin/testimonials',
       icon: <MessageOutlined />,
       label: <Link to="/admin/testimonials">Testimonials</Link>,
+    },
+    {
+      key: '/admin/inquiries',
+      icon: <InboxOutlined />,
+      label: <Link to="/admin/inquiries">Inquiries</Link>,
     },
     {
       key: '/admin/payment',
