@@ -448,9 +448,18 @@ const AdminPackages = () => {
             <Input placeholder="Free cancellation up to 7 days" />
           </Form.Item>
 
-          <Divider orientation="left" style={{ marginTop: 32, marginBottom: 24 }}>
-            <GlobalOutlined style={{ marginRight: 8 }} />
-            SEO Settings (Optional)
+          <Divider 
+            orientation="left" 
+            style={{ 
+              marginTop: 32, 
+              marginBottom: 24,
+              borderColor: '#d1d5db',
+              borderWidth: '1px',
+              fontWeight: 600
+            }}
+          >
+            <GlobalOutlined style={{ marginRight: 8, color: '#0ea5e9' }} />
+            <span style={{ color: '#1e293b', fontSize: '15px' }}>SEO Settings (Optional)</span>
           </Divider>
 
           <Collapse defaultActiveKey={[]} ghost>
@@ -500,8 +509,17 @@ const AdminPackages = () => {
                 </Col>
               </Row>
 
-              <Divider orientation="left" style={{ marginTop: 24, marginBottom: 16 }}>
-                Open Graph (Social Media Sharing)
+              <Divider 
+                orientation="left" 
+                style={{ 
+                  marginTop: 24, 
+                  marginBottom: 16,
+                  borderColor: '#d1d5db',
+                  borderWidth: '1px',
+                  fontWeight: 600
+                }}
+              >
+                <span style={{ color: '#1e293b', fontSize: '14px' }}>Open Graph (Social Media Sharing)</span>
               </Divider>
 
               <Row gutter={16}>
