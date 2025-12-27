@@ -1,60 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebase/config'
-import { Search, Calendar, MapPin } from 'lucide-react'
+import React from 'react'
 
-const Banner = ({ onSearch }) => {
-  const [formData, setFormData] = useState({
-    to: '',
-    date: ''
-  })
-  const [availableCities, setAvailableCities] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        // Fetch packages for destination cities
-        const packagesSnapshot = await getDocs(collection(db, 'holidayPackages'))
-        const packageLocations = new Set()
-        packagesSnapshot.docs.forEach(doc => {
-          const data = doc.data()
-          if (data.location) {
-            packageLocations.add(data.location)
-          }
-        })
-
-        // Sort locations
-        const sortedLocations = Array.from(packageLocations).sort()
-        setAvailableCities(sortedLocations)
-      } catch (error) {
-        console.error('Error fetching cities:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchCities()
-  }, [])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (onSearch) {
-      onSearch(formData)
-    }
-    // Scroll to packages section
-    const packagesSection = document.getElementById('packages')
-    if (packagesSection) {
-      packagesSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+const Banner = () => {
 
   return (
     <div className="relative min-h-[500px] md:h-[650px] bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 overflow-hidden">
@@ -91,8 +37,8 @@ const Banner = ({ onSearch }) => {
               </div>
               <div className="w-px h-16 bg-white/30"></div>
               <div className="text-center">
-                <div className="text-4xl font-bold mb-1">28+</div>
-                <div className="text-sm font-medium uppercase tracking-wide">Indian States</div>
+                <div className="text-4xl font-bold mb-1">24/7</div>
+                <div className="text-sm font-medium uppercase tracking-wide">Support</div>
               </div>
               <div className="w-px h-16 bg-white/30"></div>
               <div className="text-center">
@@ -108,8 +54,8 @@ const Banner = ({ onSearch }) => {
               </div>
               <div className="w-px h-10 bg-white/30"></div>
               <div className="text-center">
-                <div className="text-2xl font-bold">28+</div>
-                <div className="text-[10px] font-medium uppercase">States</div>
+                <div className="text-2xl font-bold">24/7</div>
+                <div className="text-[10px] font-medium uppercase">Support</div>
               </div>
               <div className="w-px h-10 bg-white/30"></div>
               <div className="text-center">
@@ -118,65 +64,22 @@ const Banner = ({ onSearch }) => {
               </div>
             </div>
           </div>
-
-          {/* Search Form */}
-          <div className="max-w-5xl mx-auto">
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 border border-gray-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                {/* To */}
-                <div className="relative">
-                  <label className="block text-xs font-bold text-gray-700 mb-2 md:mb-2.5 uppercase tracking-wide">
-                    <MapPin className="inline h-3 w-3 md:h-3.5 md:w-3.5 mr-1 md:mr-1.5 text-primary-600" />
-                    To
-                  </label>
-                  <select
-                    name="to"
-                    value={formData.to}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2.5 md:px-4 md:py-3.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition text-gray-900 font-medium bg-white text-sm md:text-base"
-                    required
-                  >
-                    <option value="">Destination city</option>
-                    {availableCities.map((city, index) => (
-                      <option key={index} value={city}>{city}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Date */}
-                <div className="relative">
-                  <label className="block text-xs font-bold text-gray-700 mb-2 md:mb-2.5 uppercase tracking-wide">
-                    <Calendar className="inline h-3 w-3 md:h-3.5 md:w-3.5 mr-1 md:mr-1.5 text-primary-600" />
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2.5 md:px-4 md:py-3.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition text-gray-900 font-medium text-sm md:text-base"
-                    required
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full mt-4 md:mt-7 bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 md:py-4 rounded-lg font-bold text-sm md:text-base hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-xl uppercase tracking-wide"
-              >
-                <Search className="h-4 w-4 md:h-5 md:w-5" />
-                <span>Search Tours</span>
-              </button>
-            </form>
-          </div>
         </div>
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg className="w-full h-20" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+      {/* Decorative Wave */}
+      <div className="absolute bottom-0 left-0 right-0 overflow-hidden">
+        <svg 
+          className="w-full h-20 md:h-28" 
+          viewBox="0 0 1440 100" 
+          preserveAspectRatio="none"
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path 
+            d="M0,80 Q360,40 720,60 T1440,70 L1440,100 L0,100 Z" 
+            fill="white"
+          />
         </svg>
       </div>
     </div>

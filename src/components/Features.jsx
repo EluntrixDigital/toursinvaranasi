@@ -92,12 +92,18 @@ const Features = () => {
               Join thousands of satisfied travelers and experience the world with Varanasi Tours
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <button className="bg-white text-primary-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] uppercase tracking-wide">
+              <a 
+                href="/#packages"
+                className="bg-white text-primary-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] uppercase tracking-wide inline-block text-center"
+              >
                 Book Your Package
-              </button>
-              <button className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all duration-300 uppercase tracking-wide">
+              </a>
+              <a 
+                href="/contact"
+                className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all duration-300 uppercase tracking-wide inline-block text-center"
+              >
                 Contact Us
-              </button>
+              </a>
             </div>
           </div>
         </div>

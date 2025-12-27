@@ -18,12 +18,16 @@ import {
   Image,
   Tag,
   Popconfirm,
-  message
+  message,
+  Collapse,
+  Divider
 } from 'antd'
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, EditOutlined, DeleteOutlined, GlobalOutlined } from '@ant-design/icons'
+import RichTextEditor from '../components/RichTextEditor'
 
 const { Content } = Layout
 const { TextArea } = Input
+const { Panel } = Collapse
 
 const AdminPackages = () => {
   const [packages, setPackages] = useState([])
@@ -77,6 +81,9 @@ const AdminPackages = () => {
         highlights: typeof values.highlights === 'string'
           ? values.highlights.split(',').map(h => h.trim()).filter(h => h)
           : values.highlights,
+        metaKeywords: typeof values.metaKeywords === 'string' && values.metaKeywords
+          ? values.metaKeywords.split(',').map(k => k.trim()).filter(k => k)
+          : values.metaKeywords || [],
         createdAt: new Date().toISOString()
       }
 
@@ -100,12 +107,16 @@ const AdminPackages = () => {
 
   const handleEdit = (pkg) => {
     setEditingId(pkg.id)
-    form.setFieldsValue({
-      ...pkg,
-      features: Array.isArray(pkg.features) ? pkg.features.join(', ') : pkg.features || '',
-      highlights: Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : pkg.highlights || ''
-    })
     setModalVisible(true)
+    // Use setTimeout to ensure modal is rendered before setting form values
+    setTimeout(() => {
+      form.setFieldsValue({
+        ...pkg,
+        features: Array.isArray(pkg.features) ? pkg.features.join(', ') : pkg.features || '',
+        highlights: Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : pkg.highlights || '',
+        metaKeywords: Array.isArray(pkg.metaKeywords) ? pkg.metaKeywords.join(', ') : pkg.metaKeywords || ''
+      })
+    }, 100)
   }
 
   const handleDelete = async (id) => {
@@ -143,9 +154,16 @@ const AdminPackages = () => {
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
-      title: 'Location',
-      dataIndex: 'location',
-      key: 'location',
+      title: 'City',
+      dataIndex: 'city',
+      key: 'city',
+      sorter: (a, b) => (a.city || '').localeCompare(b.city || ''),
+    },
+    {
+      title: 'State',
+      dataIndex: 'state',
+      key: 'state',
+      sorter: (a, b) => (a.state || '').localeCompare(b.state || ''),
     },
     {
       title: 'Price',
@@ -258,7 +276,7 @@ const AdminPackages = () => {
           }}
         >
           <Row gutter={16}>
-            <Col span={6}>
+            <Col span={12}>
               <Form.Item
                 name="title"
                 label="Title"
@@ -269,11 +287,20 @@ const AdminPackages = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                name="location"
-                label="Location"
-                rules={[{ required: true, message: 'Please enter location' }]}
+                name="city"
+                label="City"
+                rules={[{ required: true, message: 'Please enter city' }]}
               >
-                <Input placeholder="Enter location" />
+                <Input placeholder="Enter city" />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="state"
+                label="State"
+                rules={[{ required: true, message: 'Please enter state' }]}
+              >
+                <Input placeholder="Enter state" />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -309,11 +336,24 @@ const AdminPackages = () => {
           </Form.Item>
 
           <Form.Item
+            name="shortSummary"
+            label="Short Summary"
+            rules={[{ required: true, message: 'Please enter short summary' }]}
+            help="A brief summary that appears on package cards (2-3 lines)"
+          >
+            <TextArea rows={2} placeholder="Enter a short summary of the package" maxLength={200} showCount />
+          </Form.Item>
+
+          <Form.Item
             name="description"
             label="Description"
             rules={[{ required: true, message: 'Please enter description' }]}
+            help="Full detailed description with rich text formatting support"
           >
-            <TextArea rows={3} placeholder="Enter package description" />
+            <RichTextEditor 
+              key={editingId || 'new'} 
+              placeholder="Enter detailed package description..." 
+            />
           </Form.Item>
 
           <Row gutter={16}>
@@ -407,6 +447,106 @@ const AdminPackages = () => {
           >
             <Input placeholder="Free cancellation up to 7 days" />
           </Form.Item>
+
+          <Divider orientation="left" style={{ marginTop: 32, marginBottom: 24 }}>
+            <GlobalOutlined style={{ marginRight: 8 }} />
+            SEO Settings (Optional)
+          </Divider>
+
+          <Collapse defaultActiveKey={[]} ghost>
+            <Panel header="Search Engine Optimization" key="seo">
+              <Row gutter={16}>
+                <Col span={24}>
+                  <Form.Item
+                    name="metaTitle"
+                    label="Meta Title"
+                    help="Title for search engines (50-60 characters recommended)"
+                    rules={[
+                      { max: 60, message: 'Meta title should be 60 characters or less' }
+                    ]}
+                  >
+                    <Input 
+                      placeholder="e.g., Amazing Varanasi Tour Package - Book Now"
+                      showCount
+                      maxLength={60}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item
+                    name="metaDescription"
+                    label="Meta Description"
+                    help="Description for search engines (150-160 characters recommended)"
+                    rules={[
+                      { max: 160, message: 'Meta description should be 160 characters or less' }
+                    ]}
+                  >
+                    <TextArea 
+                      rows={3}
+                      placeholder="e.g., Experience the spiritual charm of Varanasi with our curated tour package..."
+                      showCount
+                      maxLength={160}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item
+                    name="metaKeywords"
+                    label="Meta Keywords"
+                    help="Comma-separated keywords for SEO (e.g., varanasi, tour, package, travel)"
+                  >
+                    <Input placeholder="varanasi tour, holiday package, travel india, spiritual tourism" />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Divider orientation="left" style={{ marginTop: 24, marginBottom: 16 }}>
+                Open Graph (Social Media Sharing)
+              </Divider>
+
+              <Row gutter={16}>
+                <Col span={24}>
+                  <Form.Item
+                    name="ogTitle"
+                    label="Open Graph Title"
+                    help="Title for social media sharing (optional - uses Meta Title if not set)"
+                  >
+                    <Input placeholder="Leave empty to use Meta Title" />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item
+                    name="ogDescription"
+                    label="Open Graph Description"
+                    help="Description for social media sharing (optional - uses Meta Description if not set)"
+                  >
+                    <TextArea 
+                      rows={3}
+                      placeholder="Leave empty to use Meta Description"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item
+                    name="ogImage"
+                    label="Open Graph Image URL"
+                    help="Image for social media sharing (1200x630px recommended). Leave empty to use package image."
+                  >
+                    <Input placeholder="https://example.com/image.jpg" />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item
+                    name="canonicalUrl"
+                    label="Canonical URL"
+                    help="Preferred URL for this page (optional - auto-generated if not set)"
+                  >
+                    <Input placeholder="https://toursinvaranasi.com/package/varanasi-spiritual-tour" />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Panel>
+          </Collapse>
 
           <Form.Item>
             <Space>

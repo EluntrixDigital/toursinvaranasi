@@ -17,7 +17,11 @@ import RefundPolicy from './pages/RefundPolicy'
 import CancellationPolicy from './pages/CancellationPolicy'
 import Contact from './pages/Contact'
 import AdminInquiries from './pages/AdminInquiries'
+import PackageDetail from './pages/PackageDetail'
+import AllPackages from './pages/AllPackages'
+import AllCars from './pages/AllCars'
 import ProtectedRoute from './components/ProtectedRoute'
+import WhatsAppFloat from './components/WhatsAppFloat'
 
 function App() {
   return (
@@ -32,6 +36,7 @@ function App() {
                 <Home />
               </main>
               <Footer />
+              <WhatsAppFloat />
             </div>
           } />
 
@@ -46,6 +51,7 @@ function App() {
                 <TermsConditions />
               </main>
               <Footer />
+              <WhatsAppFloat />
             </div>
           } />
           <Route path="/privacy-policy" element={
@@ -55,6 +61,7 @@ function App() {
                 <PrivacyPolicy />
               </main>
               <Footer />
+              <WhatsAppFloat />
             </div>
           } />
           <Route path="/refund-policy" element={
@@ -64,6 +71,7 @@ function App() {
                 <RefundPolicy />
               </main>
               <Footer />
+              <WhatsAppFloat />
             </div>
           } />
           <Route path="/cancellation-policy" element={
@@ -73,6 +81,7 @@ function App() {
                 <CancellationPolicy />
               </main>
               <Footer />
+              <WhatsAppFloat />
             </div>
           } />
           <Route path="/contact" element={
@@ -82,6 +91,43 @@ function App() {
                 <Contact />
               </main>
               <Footer />
+              <WhatsAppFloat />
+            </div>
+          } />
+          
+          {/* All Packages Page */}
+          <Route path="/packages" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <AllPackages />
+              </main>
+              <Footer />
+              <WhatsAppFloat />
+            </div>
+          } />
+          
+          {/* All Cars Page */}
+          <Route path="/car-rental" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <AllCars />
+              </main>
+              <Footer />
+              <WhatsAppFloat />
+            </div>
+          } />
+          
+          {/* Package Detail Page */}
+          <Route path="/package/:id" element={
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <PackageDetail />
+              </main>
+              <Footer />
+              <WhatsAppFloat />
             </div>
           } />
 

@@ -38,10 +38,10 @@ const Footer = () => {
                 <a href="/#home" className="text-gray-400 hover:text-white transition">Home</a>
               </li>
               <li>
-                <a href="/#packages" className="text-gray-400 hover:text-white transition">Holiday Packages</a>
+                <a href="/packages" className="text-gray-400 hover:text-white transition">Holiday Packages</a>
               </li>
               <li>
-                <a href="/#car-rental" className="text-gray-400 hover:text-white transition">Car Rental</a>
+                <a href="/car-rental" className="text-gray-400 hover:text-white transition">Car Rental</a>
               </li>
               <li>
                 <a href="/#about" className="text-gray-400 hover:text-white transition">About Us</a>

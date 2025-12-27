@@ -351,3 +351,4 @@ const AdminInquiries = () => {
 
 export default AdminInquiries
 
+

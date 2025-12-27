@@ -65,11 +65,16 @@ const AdminCars = () => {
     try {
       const carData = {
         ...values,
-        price: parseFloat(values.price),
-        originalPrice: values.originalPrice ? parseFloat(values.originalPrice) : null,
+        pricePerKm: values.pricePerKm ? parseFloat(values.pricePerKm) : null,
+        airportTransfer: values.airportTransfer ? parseFloat(values.airportTransfer) : null,
+        rate8hr80km: values.rate8hr80km ? parseFloat(values.rate8hr80km) : null,
+        rate12hr120km: values.rate12hr120km ? parseFloat(values.rate12hr120km) : null,
+        outstationRatePerKm: values.outstationRatePerKm ? parseFloat(values.outstationRatePerKm) : null,
+        outstationMinKm: values.outstationMinKm ? parseInt(values.outstationMinKm) : null,
+        // Keep old fields for backward compatibility
+        price: values.pricePerKm ? parseFloat(values.pricePerKm) : null,
         rating: parseFloat(values.rating),
         reviews: parseInt(values.reviews),
-        year: parseInt(values.year),
         seats: parseInt(values.seats),
         features: typeof values.features === 'string'
           ? values.features.split(',').map(f => f.trim()).filter(f => f)
@@ -149,17 +154,11 @@ const AdminCars = () => {
       render: (category) => <Tag color="blue">{category}</Tag>
     },
     {
-      title: 'Price/Day',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price) => `₹${price?.toLocaleString('en-IN')}/day`,
-      sorter: (a, b) => a.price - b.price,
-    },
-    {
-      title: 'Year',
-      dataIndex: 'year',
-      key: 'year',
-      sorter: (a, b) => a.year - b.year,
+      title: 'Rate/KM',
+      dataIndex: 'pricePerKm',
+      key: 'pricePerKm',
+      render: (rate) => rate ? `₹${rate}/KM` : 'N/A',
+      sorter: (a, b) => (a.pricePerKm || 0) - (b.pricePerKm || 0),
     },
     {
       title: 'Seats',
@@ -287,20 +286,6 @@ const AdminCars = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                name="year"
-                label="Year"
-                rules={[{ required: true, message: 'Please enter year' }]}
-              >
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="Enter year"
-                  min={2000}
-                  max={new Date().getFullYear() + 1}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
                 name="seats"
                 label="Seats"
                 rules={[{ required: true, message: 'Please enter number of seats' }]}
@@ -323,55 +308,122 @@ const AdminCars = () => {
             <Input placeholder="Enter image URL" />
           </Form.Item>
 
-          <Row gutter={16}>
-            <Col span={6}>
-              <Form.Item
-                name="price"
-                label="Price per Day (₹)"
-                rules={[{ required: true, message: 'Please enter price' }]}
-              >
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="Enter price per day"
-                  min={0}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="originalPrice"
-                label="Original Price (₹)"
-              >
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="Enter original price (optional)"
-                  min={0}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="mileage"
-                label="Mileage"
-                rules={[{ required: true, message: 'Please enter mileage' }]}
-              >
-                <Input placeholder="e.g., 25,000 km" />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="availability"
-                label="Availability"
-                rules={[{ required: true, message: 'Please select availability' }]}
-              >
-                <Select>
-                  <Select.Option value="Available">Available</Select.Option>
-                  <Select.Option value="Limited">Limited</Select.Option>
-                  <Select.Option value="Sold Out">Sold Out</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
+          {/* Pricing Section */}
+          <div style={{ marginBottom: 24, padding: '16px', background: '#f5f5f5', borderRadius: '8px' }}>
+            <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Pricing Structure</h3>
+            
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  name="pricePerKm"
+                  label="Inside City Rate (₹/KM)"
+                  rules={[{ required: true, message: 'Please enter rate per KM' }]}
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="e.g., 11"
+                    min={0}
+                    addonAfter="₹/KM"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="airportTransfer"
+                  label="Airport Transfer (₹)"
+                  rules={[{ required: true, message: 'Please enter airport transfer rate' }]}
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="e.g., 900"
+                    min={0}
+                    addonAfter="₹"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="availability"
+                  label="Availability"
+                  rules={[{ required: true, message: 'Please select availability' }]}
+                >
+                  <Select>
+                    <Select.Option value="Available">Available</Select.Option>
+                    <Select.Option value="Limited">Limited</Select.Option>
+                    <Select.Option value="Sold Out">Sold Out</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  name="rate8hr80km"
+                  label="8Hr / 80KM (₹)"
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="e.g., 1,800"
+                    min={0}
+                    addonAfter="₹"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="rate12hr120km"
+                  label="12Hr / 120KM (₹)"
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="e.g., 2,200"
+                    min={0}
+                    addonAfter="₹"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="mileage"
+                  label="Mileage (Optional)"
+                >
+                  <Input placeholder="e.g., 25,000 km" />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  name="outstationRatePerKm"
+                  label="Outstation Rate (₹/KM)"
+                  rules={[{ required: true, message: 'Please enter outstation rate per KM' }]}
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="e.g., 11"
+                    min={0}
+                    addonAfter="₹/KM"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="outstationMinKm"
+                  label="Outstation Minimum KM/Day"
+                  rules={[{ required: true, message: 'Please enter minimum KM per day' }]}
+                >
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    placeholder="e.g., 250"
+                    min={0}
+                    addonAfter="KM/Day"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </div>
 
           <Row gutter={16}>
             <Col span={6}>

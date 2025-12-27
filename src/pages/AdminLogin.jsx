@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Card, Form, Input, Button, Alert } from 'antd'
+import { Card, Form, Input, Button, Alert, Checkbox } from 'antd'
 import { MailOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons'
 import { Layout } from 'antd'
 import logo from '../lhasalogo.png'
@@ -14,6 +14,21 @@ const AdminLogin = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [loginForm] = Form.useForm()
+
+  // Load saved credentials on mount
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('adminRememberEmail')
+    const savedPassword = localStorage.getItem('adminRememberPassword')
+    const rememberMe = localStorage.getItem('adminRememberMe') === 'true'
+
+    if (rememberMe && savedEmail && savedPassword) {
+      loginForm.setFieldsValue({
+        email: savedEmail,
+        password: savedPassword,
+        rememberMe: true
+      })
+    }
+  }, [loginForm])
 
   const getErrorMessage = (errorCode) => {
     switch (errorCode) {
@@ -40,6 +55,17 @@ const AdminLogin = () => {
     try {
       const result = await login(values.email, values.password)
       if (result.success) {
+        // Handle Remember Me functionality
+        if (values.rememberMe) {
+          localStorage.setItem('adminRememberEmail', values.email)
+          localStorage.setItem('adminRememberPassword', values.password)
+          localStorage.setItem('adminRememberMe', 'true')
+        } else {
+          // Clear saved credentials if Remember Me is unchecked
+          localStorage.removeItem('adminRememberEmail')
+          localStorage.removeItem('adminRememberPassword')
+          localStorage.removeItem('adminRememberMe')
+        }
         navigate('/admin/dashboard')
       } else {
         const errorCode = result.errorCode || ''
@@ -227,6 +253,12 @@ const AdminLogin = () => {
                   e.target.style.boxShadow = 'none'
                 }}
               />
+            </Form.Item>
+
+            <Form.Item name="rememberMe" valuePropName="checked" style={{ marginBottom: 24, marginTop: '8px' }}>
+              <Checkbox style={{ color: '#64748b', fontSize: '14px' }}>
+                Remember me
+              </Checkbox>
             </Form.Item>
 
             <Form.Item style={{ marginBottom: 0, marginTop: '32px' }}>
