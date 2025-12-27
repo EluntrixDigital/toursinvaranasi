@@ -126,7 +126,9 @@ const HolidayPackages = ({ limit = null }) => {
                 </div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition">{pkg.title}</h3>
-                <p className="text-gray-600 mb-6 text-sm line-clamp-2" dangerouslySetInnerHTML={{ __html: pkg.shortSummary || pkg.description }}></p>
+                <p className="text-gray-600 mb-6 text-sm line-clamp-2">
+                  {pkg.shortSummary || pkg.description || 'Experience the best of travel with this amazing package.'}
+                </p>
 
                 <button className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3.5 rounded-lg font-bold hover:from-primary-700 hover:to-primary-800 transition-all duration-300 flex items-center justify-center space-x-2 group-hover:shadow-xl transform group-hover:scale-[1.01] uppercase tracking-wide text-sm">
                   <span>View Details</span>
