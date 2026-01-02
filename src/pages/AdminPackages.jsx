@@ -71,8 +71,6 @@ const AdminPackages = () => {
     try {
       const packageData = {
         ...values,
-        price: parseFloat(values.price),
-        originalPrice: values.originalPrice ? parseFloat(values.originalPrice) : null,
         rating: parseFloat(values.rating),
         reviews: parseInt(values.reviews),
         features: typeof values.features === 'string' 
@@ -164,13 +162,6 @@ const AdminPackages = () => {
       dataIndex: 'state',
       key: 'state',
       sorter: (a, b) => (a.state || '').localeCompare(b.state || ''),
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price) => `₹${price?.toLocaleString('en-IN')}`,
-      sorter: (a, b) => a.price - b.price,
     },
     {
       title: 'Rating',
@@ -357,32 +348,7 @@ const AdminPackages = () => {
           </Form.Item>
 
           <Row gutter={16}>
-            <Col span={6}>
-              <Form.Item
-                name="price"
-                label="Price (₹)"
-                rules={[{ required: true, message: 'Please enter price' }]}
-              >
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="Enter price"
-                  min={0}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="originalPrice"
-                label="Original Price (₹)"
-              >
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="Enter original price (optional)"
-                  min={0}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item
                 name="rating"
                 label="Rating"
@@ -397,7 +363,7 @@ const AdminPackages = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item
                 name="reviews"
                 label="Reviews Count"

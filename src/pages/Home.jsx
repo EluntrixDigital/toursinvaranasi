@@ -4,6 +4,7 @@ import HolidayPackages from '../components/HolidayPackages'
 import CarRental from '../components/CarRental'
 import Features from '../components/Features'
 import Testimonials from '../components/Testimonials'
+import SEO from '../components/SEO'
 
 const Home = () => {
   useEffect(() => {
@@ -28,13 +29,21 @@ const Home = () => {
   }, [])
 
   return (
-    <div id="home">
-      <Banner />
-      <HolidayPackages limit={3} />
-      <CarRental limit={3} />
-      <Features />
-      <Testimonials />
-    </div>
+    <>
+      <SEO
+        title="Premium Travel & Tours | Holiday Packages & Car Rental"
+        description="Discover incredible India with Varanasi Tours. Premium holiday packages, car rental services, and unforgettable travel experiences. Serving since 2010 with 50K+ happy travelers. Book your dream vacation today!"
+        keywords="Varanasi Tours, Travel Packages India, Holiday Packages Varanasi, Car Rental Varanasi, Tour Packages, Travel Agency Varanasi, India Tours, Taxi Rental Varanasi, Premium Travel, Travel Services"
+        url="/"
+      />
+      <div id="home">
+        <Banner />
+        <HolidayPackages limit={3} />
+        <CarRental limit={3} />
+        <Features />
+        <Testimonials />
+      </div>
+    </>
   )
 }
 

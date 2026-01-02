@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import { MapPin, Calendar, Users, Star, ArrowRight, Clock, Shield, UtensilsCrossed, Wifi, Plane, Check, X, ArrowLeft } from 'lucide-react'
+import SEO from '../components/SEO'
 
 const PackageDetail = () => {
   const { id } = useParams()
@@ -34,12 +35,6 @@ const PackageDetail = () => {
     }
   }, [id, navigate])
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-IN', {
-      maximumFractionDigits: 0
-    }).format(price)
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -55,14 +50,76 @@ const PackageDetail = () => {
     return null
   }
 
+  // Generate structured data for the package
+  const packageStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    "name": pkg.title,
+    "description": pkg.description?.replace(/<[^>]*>/g, '').substring(0, 300) || `Book ${pkg.title} package with Varanasi Tours`,
+    "image": pkg.image,
+    "url": `https://toursinvaranasi.com/package/${pkg.id}`,
+    "provider": {
+      "@type": "TravelAgency",
+      "name": "Varanasi Tours",
+      "url": "https://toursinvaranasi.com",
+      "telephone": "+918840142147",
+      "email": "info@varanasitours.com"
+    },
+    "tourBookingPage": `https://toursinvaranasi.com/package/${pkg.id}`,
+    "itinerary": {
+      "@type": "ItemList",
+      "numberOfItems": Array.isArray(pkg.itinerary) ? pkg.itinerary.length : 1,
+      "itemListElement": Array.isArray(pkg.itinerary) ? pkg.itinerary.map((day, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": `Day ${index + 1}`,
+        "description": day
+      })) : [{
+        "@type": "ListItem",
+        "position": 1,
+        "description": pkg.itinerary
+      }]
+    },
+    ...(pkg.city && {
+      "destinationLocation": {
+        "@type": "City",
+        "name": pkg.city,
+        ...(pkg.state && { "containedIn": { "@type": "State", "name": pkg.state } })
+      }
+    }),
+    ...(pkg.duration && { "duration": pkg.duration })
+  }
+
+  const packageKeywords = [
+    pkg.title,
+    pkg.city,
+    pkg.state,
+    'tour package',
+    'holiday package',
+    'travel package',
+    'Varanasi Tours'
+  ].filter(Boolean).join(', ')
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <SEO
+        title={pkg.title}
+        description={pkg.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Book ${pkg.title} - Premium travel package with Varanasi Tours. ${pkg.duration ? `Duration: ${pkg.duration}.` : ''} Contact us for pricing details.`}
+        keywords={packageKeywords}
+        image={pkg.image}
+        url={`/package/${pkg.id}`}
+        type="website"
+        canonical={`https://toursinvaranasi.com/package/${pkg.id}`}
+        structuredData={packageStructuredData}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section with Image */}
       <div className="relative h-80 md:h-96 overflow-hidden">
         <img
           src={pkg.image}
-          alt={pkg.title}
+          alt={`${pkg.title} - ${pkg.city || ''} ${pkg.state || ''} tour package. Book now with Varanasi Tours`}
           className="w-full h-full object-cover"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         
@@ -87,7 +144,7 @@ const PackageDetail = () => {
             <div className="flex flex-wrap items-center gap-4 text-sm md:text-base">
               <div className="flex items-center">
                 <MapPin className="h-4 w-4 mr-1.5" />
-                <span>{pkg.city && pkg.state ? `${pkg.city}, ${pkg.state}` : pkg.city || pkg.state || pkg.location}</span>
+                <span>{pkg.state || pkg.location}</span>
               </div>
               {pkg.duration && (
                 <div className="flex items-center">
@@ -111,17 +168,12 @@ const PackageDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Price Box */}
+            {/* Book Now Box */}
             <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl p-6 text-white shadow-lg">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-3xl md:text-4xl font-bold">₹{formatPrice(pkg.price || 0)}</span>
-                    <span className="text-base md:text-lg opacity-90">/person</span>
-                  </div>
-                  {pkg.originalPrice && (
-                    <span className="text-base line-through opacity-75">₹{formatPrice(pkg.originalPrice)}</span>
-                  )}
+                  <h3 className="text-xl md:text-2xl font-bold mb-2">Interested in this package?</h3>
+                  <p className="text-white/90 text-sm mb-3">Contact us for pricing and availability</p>
                   <div className="mt-2">
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                       pkg.availability === 'Available' 
@@ -249,7 +301,7 @@ const PackageDetail = () => {
                     <MapPin className="h-4 w-4 mr-2.5 text-primary-600 mt-0.5 flex-shrink-0" />
                     <div className="flex-1">
                       <span className="text-xs text-gray-500 block mb-0.5">Location</span>
-                      <span className="text-sm font-medium">{pkg.city && pkg.state ? `${pkg.city}, ${pkg.state}` : pkg.city || pkg.state || pkg.location}</span>
+                      <span className="text-sm font-medium">{pkg.state || pkg.location}</span>
                     </div>
                   </div>
                 )}
@@ -277,13 +329,7 @@ const PackageDetail = () => {
 
               <div className="pt-5 border-t border-gray-200">
                 <div className="text-center mb-4">
-                  <div className="flex items-baseline justify-center gap-1.5">
-                    <span className="text-2xl font-bold text-primary-600">₹{formatPrice(pkg.price || 0)}</span>
-                    <span className="text-sm text-gray-600">/person</span>
-                  </div>
-                  {pkg.originalPrice && (
-                    <span className="text-sm text-gray-500 line-through">₹{formatPrice(pkg.originalPrice)}</span>
-                  )}
+                  <p className="text-gray-600 text-sm mb-2">Contact us for pricing details</p>
                 </div>
                 <a
                   href={`https://wa.me/918840142147?text=${encodeURIComponent(`Hello! I'm interested in booking the ${pkg.title} package. Please provide more details.`)}`}
@@ -319,6 +365,7 @@ const PackageDetail = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

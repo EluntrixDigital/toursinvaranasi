@@ -3,6 +3,7 @@ import { collection, addDoc } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import { MapPin, Phone, Mail, Send, CheckCircle } from 'lucide-react'
 import { message } from 'antd'
+import SEO from '../components/SEO'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -53,8 +54,38 @@ const Contact = () => {
     }
   }
 
+  const contactStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Varanasi Tours",
+    "description": "Get in touch with Varanasi Tours for booking inquiries, travel assistance, and customer support",
+    "url": "https://toursinvaranasi.com/contact",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Varanasi Tours",
+      "telephone": "+918840142147",
+      "email": "info@varanasitours.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ashok Marg, Road, near Tibbati Temple, Sarnath",
+        "addressLocality": "Varanasi",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "221007",
+        "addressCountry": "IN"
+      }
+    }
+  }
+
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <SEO
+        title="Contact Us - Get in Touch with Varanasi Tours"
+        description="Contact Varanasi Tours for booking inquiries, travel assistance, and customer support. Call +91 88401 42147 or email info@varanasitours.com. We're here to help plan your perfect trip!"
+        keywords="contact Varanasi Tours, travel inquiry, book tour, customer support, Varanasi travel agency contact"
+        url="/contact"
+        structuredData={contactStructuredData}
+      />
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -248,6 +279,7 @@ const Contact = () => {
         </div>
       </div>
     </section>
+    </>
   )
 }
 

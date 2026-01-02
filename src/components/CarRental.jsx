@@ -114,8 +114,9 @@ const CarRental = ({ limit = null }) => {
                   {car.image ? (
                     <img
                       src={car.image}
-                      alt={car.name}
+                      alt={`${car.name || 'Car'} rental in Varanasi - Book with Varanasi Tours`}
                       className="w-full h-full object-cover"
+                      loading={limit ? "eager" : "lazy"}
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center">

@@ -77,8 +77,9 @@ const HolidayPackages = ({ limit = null }) => {
               <div className="relative h-64 overflow-hidden">
                 <img
                   src={pkg.image}
-                  alt={pkg.title}
+                  alt={`${pkg.title} - ${pkg.city || ''} tour package with Varanasi Tours`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  loading={limit ? "eager" : "lazy"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0"></div>
                 
@@ -93,19 +94,6 @@ const HolidayPackages = ({ limit = null }) => {
                   <span className="text-sm font-bold text-gray-900">{pkg.rating}</span>
                 </div>
 
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-3 rounded-xl shadow-xl">
-                    <div className="flex items-baseline justify-between">
-                      <div>
-                        <span className="text-3xl font-bold">₹{formatPrice(pkg.price || 0)}</span>
-                        <span className="text-sm opacity-90">/person</span>
-                      </div>
-                      {pkg.originalPrice && (
-                        <span className="text-sm line-through opacity-75">₹{formatPrice(pkg.originalPrice)}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div className="p-6">
@@ -113,7 +101,7 @@ const HolidayPackages = ({ limit = null }) => {
                   <div className="flex items-center text-gray-600">
                     <MapPin className="h-4 w-4 mr-1 text-primary-600" />
                     <span className="text-sm font-semibold">
-                      {pkg.city && pkg.state ? `${pkg.city}, ${pkg.state}` : pkg.city || pkg.state || pkg.location || 'Location'}
+                      {pkg.state || pkg.location || 'Location'}
                     </span>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${
@@ -125,7 +113,7 @@ const HolidayPackages = ({ limit = null }) => {
                   </span>
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition">{pkg.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition">{pkg.title}</h3>
                 <p className="text-gray-600 mb-6 text-sm line-clamp-2">
                   {pkg.shortSummary || pkg.description || 'Experience the best of travel with this amazing package.'}
                 </p>
